@@ -48,10 +48,10 @@ to go
   ]
   ask wolves [
     move
-    set energy energy - 1  ; wolves lose energy as they move
-    eat-sheep ; wolves eat a sheep on their patch
-    death ; wolves die if they run out of energy
-    reproduce-wolves ; wolves reproduce at a random rate governed by a slider
+    set energy energy - 1  
+    eat-sheep 
+    death
+    reproduce-wolves 
   ]
   ask patches [
     grow-grass
@@ -60,7 +60,7 @@ to go
 
 end
 
-to move  ; turtle procedure
+to move  
   rt random 50
   lt random 50
   fd 1
@@ -74,34 +74,32 @@ to eat-grass
 end
 
 to reproduce-cows
-  if random-float 100 <= cow-reproduce [  ; throw "dice" to see if you will reproduce
-    set energy (energy / 2)                ; divide energy between parent and offspring
-    hatch 1 [ rt random-float 360 fd 1 ]   ; hatch an offspring and move it forward 1 step
+  if random-float 100 <= cow-reproduce [  
+    set energy (energy / 2)               
+    hatch 1 [ rt random-float 360 fd 1 ]   
   ]
 end
 
 to reproduce-wolves  ; wolf procedure
-  if random-float 100 <= wolf-reproduce [  ; throw "dice" to see if you will reproduce
-    set energy (energy / 2)               ; divide energy between parent and offspring
-    hatch 1 [ rt random-float 360 fd 1 ]  ; hatch an offspring and move it forward 1 step
+  if random-float 100 <= wolf-reproduce [  
+    set energy (energy / 2)              
+    hatch 1 [ rt random-float 360 fd 1 ]  
   ]
 end
 
-to eat-sheep  ; wolf procedure
-  let prey one-of cows-here                    ; grab a random sheep
-  if prey != nobody  [                          ; did we get one? if so,
-    ask prey [ die ]                            ; kill it, and...
-    set energy energy + wolf-energy-from-food    ; get energy from eating
+to eat-sheep  
+  let prey one-of cows-here                   
+  if prey != nobody  [                         
+    ask prey [ die ]                            
+    set energy energy + wolf-energy-from-food    
   ]
 end
 
-to death  ; turtle procedure (i.e. both wolf and sheep procedure)
-  ; when energy dips below zero, die
+to death 
   if energy < 0 [ die ]
 end
 
-to grow-grass  ; patch procedure
-  ; countdown on brown patches: if you reach 0, grow some grass
+to grow-grass 
   if pcolor = white [
     ifelse countdown <= 0
       [ set pcolor green
